@@ -69,6 +69,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+
                             <TextBlock Grid.Row="0" Text="Input" Style="{StaticResource H2Style}"/>
 
                             <TextBlock x:Name="ScenarioListLabel" Text="Select Scenario:" Grid.Row="1"  Style="{StaticResource SubheaderTextStyle}" Margin="0,5,0,0" />
@@ -92,6 +93,7 @@
 
                             <!-- Output Scenarios -->
                             <UserControl x:Name="OutputSection" Grid.Row="7" Grid.ColumnSpan="2" BorderThickness="0"/>
+                            <Button Content="Request!&#xD;&#xA;" HorizontalAlignment="Left" Margin="699,0,0,0" VerticalAlignment="Center" Grid.Column="1" Width="161" Height="48" Click="Button_Click_1"/>
                         </Grid>
                     </Grid>
                 </Grid>
