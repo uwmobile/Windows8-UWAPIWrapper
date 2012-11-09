@@ -1,4 +1,7 @@
 ##UWAPIWrapper##
+To subscribe UWMobile Mailing list: bitly.com/shorten/
+We have workshop every week for you!
+
 To download: click 'ZIP' on the top of the bar!
 
 To open the project: double click UWAPIWrapperDemo.sln (*sln file)
