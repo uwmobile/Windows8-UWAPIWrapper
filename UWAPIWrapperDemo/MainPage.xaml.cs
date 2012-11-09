@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -12,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using UWAPIWrapper;
+using Newtonsoft.Json.Linq;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,7 +22,7 @@ namespace UWAPIWrapperDemo
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, UWAPIWrapperCallback
     {
         public MainPage()
         {
@@ -38,7 +40,12 @@ namespace UWAPIWrapperDemo
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            UWAPIWrapper.JSONRequest.requestJSONResponseWithoutQuery("", "");
+            UWAPIWrapper.GenericRequest.requestJSONResponseWithoutQuery("", "", this);
         }
+
+        //public void responseFromGenericRequest(JObject obj)
+        //{
+        //    obj = null;
+        //}
     }
 }
