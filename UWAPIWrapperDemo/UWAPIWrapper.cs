@@ -12,6 +12,9 @@
 //                  using Newtonsoft.Json.Linq;
 // To Use this wrapper: 
 // invoke method:
+//     UWAPIWrapper.GenericRequest.requestDataInJSONWithQuery
+//          (<query>,<method_name>, <your_api_key>, <optional, method_name_you_implement_for_handling_data>, <optional, method_name_you_implement_for_handling_fail>);
+//OR
 //     UWAPIWrapper.GenericRequest.requestDataInJSONWithoutQuery
 //          (<method_name>, <your_api_key>, <optional, method_name_you_implement_for_handling_data>, <optional, method_name_you_implement_for_handling_fail>);
 //
@@ -39,31 +42,35 @@ namespace UWAPIWrapper
     {
         public const string UW_API_BASE_URL = "http://api.uwaterloo.ca/public/v1/?";
     }
-    //Summary:
-    //  List of delegate you can implement in your part
 
-    //onGetResponseFromRequest
-    //Returns:
-    //  Parsed JSON response in JObject Format
-    //  it will not be null
-    //  JObject is just a dictionary or array
-    //  For UW API, first level is all dictionary
-    //  So you can do obj["response"] to get the value for key "response"
-    public delegate void onGetResponseFromRequest(string methodName, JObject obj);
-
-    //onFailToGetResponse
-    //Returns:
-    //  Exception if there is any
-    //  Or null if no info available
-    public delegate void onFailToGetResponse(string methodName, Exception E);
-
-    class GenericRequest
+    public class GenericRequest
     {
+        //Summary:
+        //  List of delegate you can implement in your part
+
+        //onGetResponseFromRequest
+        //Returns:
+        //  Parsed JSON response in JObject Format
+        //  it will not be null
+        //  JObject is just a dictionary or array
+        //  For UW API, first level is all dictionary
+        //  So you can do obj["response"] to get the value for key "response"
+        public delegate void onGetResponseFromRequest(GenericRequest request, string methodName, JObject obj);
+
+        //onFailToGetResponse
+        //Returns:
+        //  Exception if there is any
+        //  Or null if no info available
+        public delegate void onFailToGetResponse(GenericRequest request, string methodName, Exception E);
+
         //
         // Summary:
         //     Give a method name and API key, it will return the parsed JSON object
         //
         // Parameters:
+        //   query:
+        //     For some API call, we need a query, you can set null or call another method to avoid this param
+        //
         //   methodName:
         //     Name of the method you specify
         //
@@ -88,7 +95,7 @@ namespace UWAPIWrapper
         // Exception:
         //     None for now
 
-        public static async void requestDataInJSONWithQuery(string query, string methodName, string APIKey, onGetResponseFromRequest completionHandler, onFailToGetResponse failHandler)
+        public async void requestDataInJSONWithQuery(string query, string methodName, string APIKey, onGetResponseFromRequest completionHandler, onFailToGetResponse failHandler)
         {
             JObject result = null;
 
@@ -107,7 +114,7 @@ namespace UWAPIWrapper
                 Debug.WriteLine("ERROR! Invalid request, please check your parameter");
                 if (failHandler != null)
                 {
-                    failHandler(methodName, null);
+                    failHandler(this, methodName, null);
                 }
                 return;
             }
@@ -117,7 +124,7 @@ namespace UWAPIWrapper
                 HttpResponseMessage response = await httpClient.GetAsync(resourceUri);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    Debug.WriteLine("INFO -- Response Code: %d", response.StatusCode);
+                    Debug.WriteLine("INFO -- Response Code: {0}", response.StatusCode);
                 }
 
                 string responseBodyAsText;
@@ -131,7 +138,7 @@ namespace UWAPIWrapper
                 Debug.WriteLine("WARNING! Received HttpRequestException");
                 if (failHandler != null)
                 {
-                    failHandler(methodName, e);
+                    failHandler(this, methodName, e);
                 }
             }
             catch (TaskCanceledException e)
@@ -139,7 +146,7 @@ namespace UWAPIWrapper
                 Debug.WriteLine("WARNING! Request is cancelled");
                 if (failHandler != null)
                 {
-                    failHandler(methodName, e);
+                    failHandler(this, methodName, e);
                 }
             }
             finally
@@ -149,21 +156,21 @@ namespace UWAPIWrapper
 
             if (completionHandler != null && result != null)
             {
-                completionHandler(methodName, result);
+                completionHandler(this, methodName, result);
             }
             else
             {
                 Debug.WriteLine("WARNING! Failed to parse JSON object");
                 if (failHandler != null)
                 {
-                    failHandler(methodName, null);
+                    failHandler(this, methodName, null);
                 }
             }
         }
 
-        public static async void requestDataInJSONWithoutQuery(string methodName, string APIKey, onGetResponseFromRequest completionHandler, onFailToGetResponse failHandler)
+        public async void requestDataInJSONWithoutQuery(string methodName, string APIKey, onGetResponseFromRequest completionHandler, onFailToGetResponse failHandler)
         {
-            requestDataInJSONWithQuery(null, methodName, APIKey, completionHandler, failHandler);
+            this.requestDataInJSONWithQuery(null, methodName, APIKey, completionHandler, failHandler);
         }
 
     }

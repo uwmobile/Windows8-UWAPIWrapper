@@ -72,7 +72,7 @@
 
                             <TextBlock Grid.Row="0" Text="Input" Style="{StaticResource H2Style}"/>
 
-                            <TextBlock x:Name="ScenarioListLabel" Text="Select Scenario:" Grid.Row="1"  Style="{StaticResource SubheaderTextStyle}" Margin="0,5,0,0" />
+                            <TextBlock x:Name="ScenarioListLabel" Text="Method Name:" Grid.Row="1"  Style="{StaticResource SubheaderTextStyle}" Margin="0,5,0,0" />
                             <ListBox x:Name="Scenarios" Margin="0,0,20,0" Grid.Row="2" AutomationProperties.Name="Scenarios" HorizontalAlignment="Left" 
         						VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto"
         						AutomationProperties.LabeledBy="{Binding ElementName=ScenarioListLabel}" MaxHeight="125" Padding="0,0,27,0">
@@ -82,7 +82,7 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <TextBlock x:Name="DescriptionText" Margin="456,5,0,0" Text="Description:" Style="{StaticResource SubheaderTextStyle}" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock x:Name="DescriptionText" Margin="175,5,677,0" Text="API Key:" Style="{StaticResource SubheaderTextStyle}" Grid.Row="1" Grid.Column="1"/>
 
                             <!-- Input Scenarios -->
                             <UserControl x:Name="InputSection" Margin="0,5,0,0" IsTabStop="False" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -93,7 +93,12 @@
 
                             <!-- Output Scenarios -->
                             <UserControl x:Name="OutputSection" Grid.Row="7" Grid.ColumnSpan="2" BorderThickness="0"/>
-                            <Button Content="Request!&#xD;&#xA;" HorizontalAlignment="Left" Margin="699,0,0,0" VerticalAlignment="Center" Grid.Column="1" Width="161" Height="48" Click="Button_Click_1"/>
+                            <Button Content="Request!&#xD;&#xA;" HorizontalAlignment="Left" Margin="836,28,0,5" VerticalAlignment="Center" Grid.Column="1" Width="161" Height="38" Click="Button_Click_1" Grid.RowSpan="2" Background="#FFBC5516"/>
+                            <TextBox x:Name="output_textbox" HorizontalAlignment="Left" Grid.Row="7" TextWrapping="Wrap" Text="Output goes here :D" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="397" Width="1095" FontSize="15"/>
+                            <TextBox x:Name="method_name_text_box" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="WatPark" VerticalAlignment="Top" Height="18" Width="155"/>
+                            <TextBox x:Name="api_key_text_box" Grid.Column="1" HorizontalAlignment="Left" Margin="236,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="abcdefgfdhjffda" VerticalAlignment="Top" Height="18" Width="155"/>
+                            <TextBlock x:Name="DescriptionText_Copy" Margin="408,5,444,0" Text="Query if needed by this method:" Style="{StaticResource SubheaderTextStyle}" Grid.Row="1" Grid.Column="1"/>
+                            <TextBox x:Name="query_text_box" Grid.Column="1" HorizontalAlignment="Left" Margin="624,0,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" Width="174"/>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -41,13 +41,27 @@ namespace UWAPIWrapperDemo
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            UWAPIWrapper.GenericRequest.requestDataInJSONWithoutQuery("WatPark", "cc7004c25526969882ff31eddb1d18f4", responseFromGenericRequest, null);
-            UWAPIWrapper.GenericRequest.requestDataInJSONWithQuery("CS 486", "CourseSearch", "cc7004c25526969882ff31eddb1d18f4", responseFromGenericRequest, null);
+            if (query_text_box.Text.Length > 0)
+            {
+                GenericRequest req2 = new GenericRequest();
+                req2.requestDataInJSONWithQuery(query_text_box.Text, method_name_text_box.Text, api_key_text_box.Text, responseFromGenericRequest, genericRequestFailed);
+            }
+            else
+            {
+                GenericRequest req1 = new GenericRequest();
+                req1.requestDataInJSONWithoutQuery(method_name_text_box.Text, api_key_text_box.Text, responseFromGenericRequest, genericRequestFailed);
+            }
         }
 
-        public void responseFromGenericRequest(string methodName, JObject obj)
+        public void responseFromGenericRequest(GenericRequest request, string methodName, JObject obj)
         {
             Debug.WriteLine(obj.ToString());
+            output_textbox.Text = obj.ToString();
+        }
+
+        public void genericRequestFailed(GenericRequest req, string methodName, Exception e)
+        {
+            output_textbox.Text = "Opps! Something goes wrong!";
         }
     }
 }
