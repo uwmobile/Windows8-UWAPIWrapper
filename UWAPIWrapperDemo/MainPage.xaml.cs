@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
 using UWAPIWrapper;
 using Newtonsoft.Json.Linq;
 
@@ -22,7 +23,7 @@ namespace UWAPIWrapperDemo
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page, UWAPIWrapperCallback
+    public sealed partial class MainPage : Page
     {
         public MainPage()
         {
@@ -40,12 +41,14 @@ namespace UWAPIWrapperDemo
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            UWAPIWrapper.GenericRequest.requestJSONResponseWithoutQuery("", "", this);
+            UWAPIWrapper.GenericRequest.requestDataInJSONWithoutQuery("WatPark", "cc7004c25526969882ff31eddb1d18f4", responseFromGenericRequest, null);
+            UWAPIWrapper.GenericRequest.requestDataInJSONWithQuery("CS 486", "CourseSearch", "cc7004c25526969882ff31eddb1d18f4", responseFromGenericRequest, null);
         }
 
-        //public void responseFromGenericRequest(JObject obj)
-        //{
-        //    obj = null;
-        //}
+        public void responseFromGenericRequest(string methodName, JObject obj)
+        {
+            Debug.WriteLine(obj.ToString());
+        }
     }
 }
+ 
