@@ -48,6 +48,8 @@
                     <TextBlock x:Name="FeatureName" Grid.Row="0" Style="{StaticResource HeaderTextStyle}" TextWrapping="Wrap">
                     	<Run Text="University of Waterloo Open Data Wrapper Demo"/>
                     	<LineBreak/>
+                    	<Run Text="repo is at github.com/uwmobile"/>
+                    	<LineBreak/>
                     	<Run/>
                     </TextBlock>
 
