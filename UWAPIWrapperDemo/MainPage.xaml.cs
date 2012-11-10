@@ -44,19 +44,46 @@ namespace UWAPIWrapperDemo
             if (query_text_box.Text.Length > 0)
             {
                 GenericRequest req2 = new GenericRequest();
-                req2.requestDataInJSONWithQuery(query_text_box.Text, method_name_text_box.Text, api_key_text_box.Text, responseFromGenericRequest, genericRequestFailed);
+                req2.requestDataInJSONWithQuery(query_text_box.Text, method_name_text_box.Text, /*api_key_text_box.Text*/"cc7004c25526969882ff31eddb1d18f4", responseFromGenericRequest, genericRequestFailed);
             }
             else
             {
                 GenericRequest req1 = new GenericRequest();
-                req1.requestDataInJSONWithoutQuery(method_name_text_box.Text, api_key_text_box.Text, responseFromGenericRequest, genericRequestFailed);
+                req1.requestDataInJSONWithoutQuery(method_name_text_box.Text, /*api_key_text_box.Text*/"cc7004c25526969882ff31eddb1d18f4", responseFromGenericRequest, genericRequestFailed);
             }
         }
 
         public void responseFromGenericRequest(GenericRequest request, string methodName, JObject obj)
         {
-            Debug.WriteLine(obj.ToString());
+            
             output_textbox.Text = obj.ToString();
+
+            try
+            {
+                JToken response = obj["response"];
+                response = response["data"];
+                JArray parkings = (JArray)response["result"];
+                foreach (JContainer parking_lot in parkings)
+                {
+                    
+                    string lot_name = (string)parking_lot["LotName"];
+                    string latlong_combine = (string)parking_lot["LatLong"];
+                    string opentime = (string)parking_lot["OpenTime"];
+                    string closetime = (string)parking_lot["CloseTime"];
+                    string curr_count = (string)parking_lot["LatestCount"];
+                    string time_polled = (string)parking_lot["TimePolled"];
+                    //int capacity = parking_lot["Capacity"];
+                    //int percentage_filled = (int)parking_lot["PercentFilled"];
+                    Debug.WriteLine(lot_name);
+                }
+                Debug.WriteLine("ERROR! NULL pointer exception!");
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.WriteLine("ERROR! NULL pointer exception!");
+            }
+
+            Debug.WriteLine(obj.ToString());
         }
 
         public void genericRequestFailed(GenericRequest req, string methodName, Exception e)
